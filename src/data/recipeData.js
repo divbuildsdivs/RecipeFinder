@@ -1,6 +1,6 @@
 const originalWebsiteURL = "https://pinchofyum.com/";
-const recipeApiUrl = "https://storifyme.xyz/widgets/pinchofyum-2302815/widget/custom/8857?account=pinchofyum-2302815";
-
+export const recipeApiUrl = "https://storifyme.xyz/widgets/pinchofyum-2302815/widget/custom/8857?account=pinchofyum-2302815";
+export const logoURL = 'https://natashaskitchen.com/wp-content/uploads/2016/01/Strawberry-Pretzel-Salad-4-418x418.jpg'
 const mockData = {
     "widget": {
         "id": 8857,
