@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {recipeApiUrl} from '../data/recipeData.js'
+import RecipeCard from "./RecipeCard.jsx";
 
 const RecipeCatalogue = () => {
     const [recipeList, setRecipeList] = useState([]);
@@ -18,11 +19,11 @@ const RecipeCatalogue = () => {
     return (
         <div id="recipe-catalogue" className="recipe-list__container">
             <h1>Recipe List</h1>
-            <ul>
+            <ul className="flex flex-row gap-10 flex-wrap m-4 justify-center">
                 {recipeList.map((recipe)=> {
                     return(
-                        <li>
-                            <h2>{recipe.name}</h2>
+                        <li key = {recipe.id} >
+                            <RecipeCard recipe = {recipe}/>
                         </li>
                     );
                     
