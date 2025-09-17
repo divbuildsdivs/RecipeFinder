@@ -1,0 +1,11 @@
+.recipe-catalogue__list {
+    display: flex;
+    gap: 20px;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    top: 140px;
+    margin-top: 0;
+    
+}
