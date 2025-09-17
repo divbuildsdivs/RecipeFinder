@@ -1,10 +1,13 @@
 import { useRef, useState } from "react";
 
-const SearchBar = () => {
+const SearchBar = ({recipeList, setFilteredList}) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const searchhandler = () => {
-        console.log('Search Handler', searchTerm);
+        const filteredList = recipeList.filter((item) => {
+            return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+        });
+        setFilteredList(filteredList);
     }
     return (
         <form className="recipe-search-bar" onSubmit={(e)=> {e.preventDefault();}}>
