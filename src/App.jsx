@@ -2,16 +2,46 @@ import { useState } from 'react'
 import Header from './structure/Header'
 import Main from './structure/Main'
 import Footer from './structure/Footer'
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router'
 import './App.css'
+import AboutUs from './components/AboutUs'
 
-function App() {
+function AppLayout() {
   return (
     <>
       <Header/>
-      <Main />
+      <Outlet/>
       <Footer/>
     </>
   )
 }
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children:[
+      {
+        path: "/",
+        element:<Main/>
+      },
+      {
+        path: "/about",
+        element: <AboutUs/>
+      }
+    ]
+},
+
+{
+
+}
+])
+
+const App = () => {
+  return (
+    <RouterProvider router = {appRouter}></RouterProvider>
+  )
+}
+
 
 export default App
