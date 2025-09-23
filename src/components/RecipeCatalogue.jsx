@@ -9,7 +9,7 @@ const RecipeCatalogue = (props) => {
             <ul className="flex flex-row gap-10 flex-wrap m-4 justify-center">
                 {props.filteredList.map((recipe)=> {
                     return(
-                        <li key = {recipe.id} >
+                        <li key = {recipe.idMeal} >
                             <RecipeCard recipe = {recipe}/>
                         </li>
                     );

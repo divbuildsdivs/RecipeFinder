@@ -10,8 +10,8 @@ const Main = () => {
         fetch(recipeApiUrl)
             .then((res)=> res.json())
             .then((data) => {
-                setRecipeList(data.stories);
-                setFilteredList(data.stories);
+                setRecipeList(data);
+                setFilteredList(data);
             })
             .catch(error => {
                 console.error('Errror Fetching Data', error);
