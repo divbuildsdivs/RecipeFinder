@@ -1,11 +1,22 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
+import { mealDBSearchApi } from "../data/recipeData";
+
 const RecipeDetails = () => {
+   const [recipeDetailsData, setRecipeDetailsData] = useState("");
+    const [queryParams, setQueryParams] = useSearchParams();
+    const searchApiURL = mealDBSearchApi + queryParams.get("id").toString();
+    useEffect(()=> {
+        fetch(searchApiURL)
+            .then(res=> res.json())
+            .then(data => setRecipeDetailsData(data?.meals?.[0]));
+    }, [queryParams]);
+  
     return( <>
-        <h1> Recipe Name</h1>
-        <p> Description</p>
-        <video width="320" height="240" controls>
-            <source src="https://cdn.jwplayer.com/videos/Pq6FUlNH-TnltGOJn.mp4" type="video/mp4"/> 
-            Your browser does not support the video tag.
-        </video> 
+        <h1> {recipeDetailsData.strMeal} </h1>
+        
+        <img className="h-100 w-100"  src={recipeDetailsData.strMealThumb}></img>
+        <p> {recipeDetailsData.strInstructions}</p>
 </>);
    
 }
