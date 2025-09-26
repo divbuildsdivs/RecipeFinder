@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from 'react-router'
 import './App.css'
 import AboutUs from './components/AboutUs'
 import RecipeDetails from './components/RecipeDetails'
+import Error from './components/Error'
 
 function AppLayout() {
   return (
@@ -24,7 +25,8 @@ const appRouter = createBrowserRouter([
     children:[
       {
         path: "/",
-        element:<Main/>
+        element:<Main/>,
+        errorElement: <Error/>
       },
       {
         path: "/about",

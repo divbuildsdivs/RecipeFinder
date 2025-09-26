@@ -5,7 +5,7 @@ const SearchBar = ({recipeList, setFilteredList}) => {
 
     const searchhandler = () => {
         const filteredList = recipeList.filter((item) => {
-            return item.name.toLowerCase().includes(searchTerm.toLowerCase());
+            return item.strMeal.toLowerCase().includes(searchTerm.toLowerCase()) || item.strCategory.toLowerCase().includes(searchTerm.toLowerCase());
         });
         setFilteredList(filteredList);
     }
