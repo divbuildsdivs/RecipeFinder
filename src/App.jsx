@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from './structure/Header'
 import Main from './structure/Main'
 import Footer from './structure/Footer'
@@ -7,13 +7,21 @@ import './App.css'
 import AboutUs from './components/AboutUs'
 import RecipeDetails from './components/RecipeDetails'
 import Error from './components/Error'
+import UserContext from './utils/UserContext'
+import Favourites from './components/Favourites'
 
 function AppLayout() {
+  const [favouriteRecipes, setFavouriteRecipes] = useState(["52934"]);
+  
+  
+
   return (
     <>
-      <Header/>
-      <Outlet/>
-      <Footer/>
+      <UserContext.Provider value = {{favouriteRecipes, setFavouriteRecipes}}>
+        <Header/>
+        <Outlet/>
+        <Footer/>
+      </UserContext.Provider>
     </>
   )
 }
@@ -35,6 +43,10 @@ const appRouter = createBrowserRouter([
       {
         path:"/recipe-details",
         element: <RecipeDetails/>
+      },
+      {
+        path:"/favourites",
+        element: <Favourites/>
       }
     ]
 },
