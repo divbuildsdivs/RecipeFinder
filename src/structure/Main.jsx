@@ -34,7 +34,7 @@ const Main = () => {
         return (
             <div id="main" className="main">
                 <SearchBar recipeList={recipeList} setFilteredList={setFilteredList}/>
-                <RecipeCatalogue filteredList={filteredList}/>
+                <RecipeCatalogue title ="Recipes!" filteredList={filteredList}/>
             </div>
         );
     } else {

@@ -2,7 +2,10 @@
 import '../styles/header.css'
 import { logoURL } from '../data/recipeData.js';
 import { Link } from 'react-router';
+import { useContext } from 'react';
+import FavouriteRecipesContext from '../utils/FavouriteRecipesContext.jsx';
 const Header = () => {
+    const { favouriteRecipes } = useContext(FavouriteRecipesContext)
     return (
         <header className="header">
         <Link to = "/" className="homepage-redirect flex-col w-16 m-4 align-center text-[#FF2C2C] font-medium ">
@@ -13,7 +16,7 @@ const Header = () => {
             <ul className='nav-items'>
                 <li className='nav-item'><Link to="/">Home</Link></li>
                 <li className='nav-item'><Link to="/about">About</Link></li>
-                <li className='nav-item'><Link to="/favourites">Favourites</Link></li>
+                <li className='nav-item'><Link to="/favourites">Favourites {favouriteRecipes.length > 0 && <sup>{favouriteRecipes.length}</sup>}</Link></li>
                 <li className='nav-item'><Link to="/contact">Contact</Link></li>
             </ul>
         </nav>

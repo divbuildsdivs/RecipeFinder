@@ -7,21 +7,21 @@ import './App.css'
 import AboutUs from './components/AboutUs'
 import RecipeDetails from './components/RecipeDetails'
 import Error from './components/Error'
-import UserContext from './utils/UserContext'
+import FavouriteRecipesContext from './utils/FavouriteRecipesContext'
 import Favourites from './components/Favourites'
 
 function AppLayout() {
-  const [favouriteRecipes, setFavouriteRecipes] = useState(["52934"]);
+  const [favouriteRecipes, setFavouriteRecipes] = useState([]);
   
   
 
   return (
     <>
-      <UserContext.Provider value = {{favouriteRecipes, setFavouriteRecipes}}>
+      <FavouriteRecipesContext.Provider value = {{favouriteRecipes, setFavouriteRecipes}}>
         <Header/>
         <Outlet/>
         <Footer/>
-      </UserContext.Provider>
+      </FavouriteRecipesContext.Provider>
     </>
   )
 }

@@ -1,12 +1,13 @@
 import { useContext } from "react";
-import UserContext from "../utils/UserContext";
+import FavouriteRecipesContext from "../utils/FavouriteRecipesContext";
+import RecipeCatalogue from "./RecipeCatalogue";
 const Favourites =() => {
 
-    const {favouriteRecipes, setFavouriteRecipes} = useContext(UserContext);
+    const {favouriteRecipes, setFavouriteRecipes} = useContext(FavouriteRecipesContext);
 
      return (
         <>
-        <h1>{favouriteRecipes}</h1>
+         <RecipeCatalogue title ="Favourite Recipes!" filteredList ={favouriteRecipes}/>
         </>
      );
 }

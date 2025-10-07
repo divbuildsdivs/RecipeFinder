@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 import { mealDBSearchApi } from "../data/recipeData";
+import FavouriteRecipesContext from "../utils/FavouriteRecipesContext";
 
 const RecipeDetails = () => {
+  const {favouriteRecipes, setFavouriteRecipes} = useContext(FavouriteRecipesContext);
   const [recipeDetailsData, setRecipeDetailsData] = useState(null);
   const [queryParams] = useSearchParams();
 
@@ -23,6 +25,11 @@ const RecipeDetails = () => {
   const instructions = recipeDetailsData.strInstructions
     ? recipeDetailsData.strInstructions.split(".").filter((i) => i.trim() !== "")
     : [];
+
+  const handleFavouriteClick = () => {
+    let favRecipes = [...favouriteRecipes, recipeDetailsData];
+    setFavouriteRecipes(favRecipes);
+  }
 
   return (
     <div className="recipe-details">
@@ -45,7 +52,7 @@ const RecipeDetails = () => {
           ))}
         </div>
       </div>
-      <button type="Submit" className="px-5 py-4 mx-8 bg-[#FF2C2C] text-white hover:bg-[#F43378] border-[#FF2C2C] border-white rounded-md border-solid border-2"> Add To Favourites </button>
+      <button type="Submit" className="cursor-pointer px-5 py-4 mx-8 bg-[#FF2C2C] text-white hover:bg-[#F43378] border-[#FF2C2C] border-white rounded-md border-solid border-2" onClick={handleFavouriteClick}> Add To Favourites </button>
     </div>
   );
 };
