@@ -4,17 +4,20 @@ import { logoURL } from '../data/recipeData.js';
 import { Link } from 'react-router';
 import { useContext } from 'react';
 import FavouriteRecipesContext from '../utils/FavouriteRecipesContext.jsx';
-const Header = () => {
+const Header = ({setRefreshKey}) => {
     const { favouriteRecipes } = useContext(FavouriteRecipesContext)
+    const onHomeClick = () => {
+        setRefreshKey(prev => prev + 1);
+    }
     return (
         <header className="header">
-        <Link to = "/" className="homepage-redirect flex-col w-16 m-4 align-center text-[#FF2C2C] font-medium ">
+        <Link to = "/" className="homepage-redirect flex-col w-16 m-4 align-center text-[#FF2C2C] font-medium " onClick={onHomeClick}>
             <img src={logoURL} alt="Company Logo" className=" rounded-full p-[3px] border-solid border-[2px] border-[#FF2C2C]" />
             <span className='text-[11px]'>RecipeMe.io</span>
         </Link>
         <nav className='nav-bar'>
             <ul className='nav-items'>
-                <li className='nav-item'><Link to="/">Home</Link></li>
+                <li className='nav-item'><Link to="/" onClick={onHomeClick}>Home</Link></li>
                 <li className='nav-item'><Link to="/about">About</Link></li>
                 <li className='nav-item'><Link to="/favourites">Favourites {favouriteRecipes.length > 0 && <sup>{favouriteRecipes.length}</sup>}</Link></li>
                 <li className='nav-item'><Link to="/contact">Contact</Link></li>

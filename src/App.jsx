@@ -9,17 +9,18 @@ import RecipeDetails from './components/RecipeDetails'
 import Error from './components/Error'
 import FavouriteRecipesContext from './utils/FavouriteRecipesContext'
 import Favourites from './components/Favourites'
+// import {Provider} from "react-redux";
+// import appStore from './utils/appStore'
 
 function AppLayout() {
   const [favouriteRecipes, setFavouriteRecipes] = useState([]);
-  
-  
+  const [refreshKey, setRefreshKey] = useState(0);
 
   return (
     <>
       <FavouriteRecipesContext.Provider value = {{favouriteRecipes, setFavouriteRecipes}}>
-        <Header/>
-        <Outlet/>
+        <Header setRefreshKey ={setRefreshKey}/>
+        <Outlet context={{ refreshKey }}/>
         <Footer/>
       </FavouriteRecipesContext.Provider>
     </>

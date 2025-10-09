@@ -7,7 +7,7 @@ const Favourites =() => {
 
      return (
         <>
-         <RecipeCatalogue title ="Favourite Recipes!" filteredList ={favouriteRecipes}/>
+         <RecipeCatalogue title ="Favourite Recipes!" recipeList ={favouriteRecipes}/>
         </>
      );
 }
