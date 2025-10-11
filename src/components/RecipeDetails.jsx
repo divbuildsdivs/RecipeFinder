@@ -27,10 +27,16 @@ const RecipeDetails = () => {
     : [];
 
   const handleFavouriteClick = () => {
-    let favRecipes = [...favouriteRecipes, recipeDetailsData];
-    setFavouriteRecipes(favRecipes);
+    // let favRecipes = [...favouriteRecipes, recipeDetailsData];
+    // setFavouriteRecipes(favRecipes);
+    setFavouriteRecipes(prev => [...prev, recipeDetailsData])
+    setIsFavourite(true);
   }
 
+  const handleUnfavouriteClick =() => {
+    setFavouriteRecipes(prev => prev.filter((recipe)=> recipe.idMeal !== recipeDetailsData.idMeal))
+    setIsFavourite(false);
+  }
   return (
     <div className="recipe-details">
       <div className="title m-4 p-4 mx-auto">
@@ -52,7 +58,22 @@ const RecipeDetails = () => {
           ))}
         </div>
       </div>
-      <button type="Submit" className="cursor-pointer px-5 py-4 mx-8 bg-[#FF2C2C] text-white hover:bg-[#F43378] border-[#FF2C2C] border-white rounded-md border-solid border-2" onClick={handleFavouriteClick}> Add To Favourites </button>
+      {favouriteRecipes.some((recipe) => recipe.idMeal === recipeDetailsData.idMeal) ? (
+        <button
+          onClick={handleUnfavouriteClick}
+          className="cursor-pointer px-5 py-4 mx-8 bg-[#FF2C2C] text-white hover:bg-[#F43378] border-[#FF2C2C] border-white rounded-md border-solid border-2"
+        >
+          Remove from Favourites
+        </button>
+      ) : (
+        <button
+          onClick={handleFavouriteClick}
+          className="cursor-pointer px-5 py-4 mx-8 bg-[#FF2C2C] text-white hover:bg-[#F43378] border-[#FF2C2C] border-white rounded-md border-solid border-2"
+        >
+          Add to Favourites
+        </button>
+      )}
+
     </div>
   );
 };
