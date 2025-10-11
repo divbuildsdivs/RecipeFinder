@@ -3,11 +3,12 @@ import RecipeCard from "./RecipeCard.jsx";
 
 const RecipeCatalogue = (props) => {
     if(props.recipeList?.length > 0) {
+        const uniqueRecipeList = Array.from(new Map(props.recipeList.map(recipe => [recipe.idMeal, recipe])).values()) //removes duplicate ids coming from different sources
         return (
             <div id="recipe-catalogue" className="recipe-list__container">
                 <h1 className="m-8">{props.title}</h1>
                 <ul className="flex flex-row gap-10 flex-wrap m-4 justify-center">
-                    {props.recipeList.map((recipe)=> {
+                    {uniqueRecipeList.map((recipe)=> {
                         return(
                             <li key = {recipe.idMeal} >
                                 <RecipeCard recipe = {recipe}/>

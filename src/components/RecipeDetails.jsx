@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { mealDBSearchApi } from "../data/recipeData";
+import { mealDBSearchApi } from "../utils/constants.js";
 import FavouriteRecipesContext from "../utils/FavouriteRecipesContext";
 
 const RecipeDetails = () => {

@@ -1,6 +1,6 @@
 
 import '../styles/header.css'
-import { logoURL } from '../data/recipeData.js';
+import { logoURL } from '../utils/constants.js';
 import { Link } from 'react-router';
 import { useContext } from 'react';
 import FavouriteRecipesContext from '../utils/FavouriteRecipesContext.jsx';

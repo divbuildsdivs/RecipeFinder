@@ -1,6 +1,6 @@
 import '../styles/main.css'
 import RecipeCatalogue from "../components/RecipeCatalogue";
-import {mealDBSearchByName, recipeApiUrl} from '../data/recipeData.js'
+import {mealDBSearchByArea, mealDBSearchByCategory, mealDBSearchByName } from '../utils/constants.js'
 import SearchBar from '../components/SearchBar';
 import { useEffect, useState } from 'react';
 import SkeletonCatalogue from '../components/SkeletonCatalogue.jsx';
@@ -14,6 +14,7 @@ const Main = () => {
     // const [filteredList, setFilteredList] = useState([]);
     useEffect(()=>{
        // fetch(recipeApiUrl + "erroririfyingAPI"
+        setRecipeList([]);
         fetch(mealDBSearchByName + searchTerm)
             .then((res)=> {
                 if (!res.ok) {
@@ -24,18 +25,46 @@ const Main = () => {
             .then((data) => {
                 if(data?.meals?.length > 0) {
                     setRecipeList(data.meals);
+                    setSearchDone(true);
                 }
-                else {
-                    setRecipeList([]);
-                }
-                
-                setSearchDone(true);
+            }).then(() => {
+                fetch(mealDBSearchByCategory + searchTerm)
+                .then((res)=> {
+                    if (!res.ok) {
+                      throw new Error(`HTTP error! Status: ${res.status}`);
+                    }
+                    return res.json();
+                  })
+                .then((data) => {
+                    if(data?.meals?.length > 0) {
+                        setRecipeList(prev => [...new Set([...prev, ...data.meals])]);
+                        setSearchDone(true);
+                    }
+                    
+                })
+            }).then(() => {
+                fetch(mealDBSearchByArea + searchTerm)
+                .then((res)=> {
+                    if (!res.ok) {
+                      throw new Error(`HTTP error! Status: ${res.status}`);
+                    }
+                    return res.json();
+                  })
+                .then((data) => {
+                    if(data?.meals?.length > 0) {
+                        setRecipeList(prev =>  [...new Set([...prev, ...data.meals])]);
+                    }
+                    setSearchDone(true);
+                    
+                })
             })
             .catch(error => {
                 
                 console.error('Errror Fetching Data', error);
                 setRecipeList(null);
             });
+           
+
     }, [searchTerm]);
 
     useEffect(() => {
@@ -46,7 +75,7 @@ const Main = () => {
         return (
             <div id="main" className="main">
                 <SearchBar setSearchDone = {setSearchDone} searchTerm = {searchTerm} setSearchTerm={setSearchTerm}/>
-                <RecipeCatalogue title ="Recommended Recipes" recipeList={recipeList}/>
+                <RecipeCatalogue title ="Recipes" recipeList={recipeList}/>
             </div>
         );
     } else {
