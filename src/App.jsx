@@ -9,6 +9,8 @@ import RecipeDetails from './components/RecipeDetails'
 import Error from './components/Error'
 import FavouriteRecipesContext from './utils/FavouriteRecipesContext'
 import Favourites from './components/Favourites'
+import { Provider } from 'react-redux'
+import { store } from './store/store'
 // import {Provider} from "react-redux";
 // import appStore from './utils/appStore'
 
@@ -18,11 +20,14 @@ function AppLayout() {
 
   return (
     <>
-      <FavouriteRecipesContext.Provider value = {{favouriteRecipes, setFavouriteRecipes}}>
-        <Header setRefreshKey ={setRefreshKey}/>
-        <Outlet context={{ refreshKey }}/>
-        <Footer/>
-      </FavouriteRecipesContext.Provider>
+      <Provider store={store}>
+        <FavouriteRecipesContext.Provider value = {{favouriteRecipes, setFavouriteRecipes}}>
+          <Header setRefreshKey ={setRefreshKey}/>
+          <Outlet context={{ refreshKey }}/>
+          <Footer/>
+        </FavouriteRecipesContext.Provider>
+      </Provider>
+      
     </>
   )
 }

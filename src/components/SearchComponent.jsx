@@ -5,7 +5,7 @@ import SearchBar from '../components/SearchBar';
 import { useEffect, useState } from 'react';
 import SkeletonCatalogue from '../components/SkeletonCatalogue.jsx';
 import { useOutletContext } from 'react-router';
-import { use } from 'react';
+
 const SearchComponent = () => {
     const { refreshKey } = useOutletContext(); 
     const [recipeList, setRecipeList] = useState([]);
@@ -14,6 +14,8 @@ const SearchComponent = () => {
     // const [filteredList, setFilteredList] = useState([]);
     useEffect(()=>{
        // fetch(recipeApiUrl + "erroririfyingAPI"
+        const recentSearches = useSelector((store) => store.searchTerms.searchTerms);
+        console.log(recentSearches);
         setRecipeList([]);
         fetch(mealDBSearchByName + searchTerm)
             .then((res)=> {
