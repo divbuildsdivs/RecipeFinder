@@ -1,10 +1,12 @@
 import '../styles/main.css'
 import RecipeCatalogue from "../components/RecipeCatalogue";
+import { useDispatch, useSelector } from 'react-redux';
 import {mealDBSearchByArea, mealDBSearchByCategory, mealDBSearchByName } from '../utils/constants.js'
 import SearchBar from '../components/SearchBar';
 import { useEffect, useState } from 'react';
 import SkeletonCatalogue from '../components/SkeletonCatalogue.jsx';
 import { useOutletContext } from 'react-router';
+import { addRecipe } from '../store/savedSearchesSlice.js';
 
 const SearchComponent = () => {
     const { refreshKey } = useOutletContext(); 
@@ -12,11 +14,20 @@ const SearchComponent = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchDone, setSearchDone ] = useState(false);
     // const [filteredList, setFilteredList] = useState([]);
+    const dispatch = useDispatch();
+    const recentSearches = useSelector((store) => store.savedSearches.searchTerms);
+    
     useEffect(()=>{
        // fetch(recipeApiUrl + "erroririfyingAPI"
-        const recentSearches = useSelector((store) => store.searchTerms.searchTerms);
-        console.log(recentSearches);
+        
         setRecipeList([]);
+        if(searchTerm in recentSearches || searchTerm === "") {
+            console.log(recentSearches);
+        }
+        else {
+            dispatch(addRecipe(searchTerm));
+            console.log(recentSearches);
+        }
         fetch(mealDBSearchByName + searchTerm)
             .then((res)=> {
                 if (!res.ok) {
