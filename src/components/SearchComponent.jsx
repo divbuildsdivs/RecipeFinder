@@ -6,29 +6,29 @@ import SearchBar from '../components/SearchBar';
 import { useEffect, useState } from 'react';
 import SkeletonCatalogue from '../components/SkeletonCatalogue.jsx';
 import { useOutletContext } from 'react-router';
-import { addRecipe } from '../store/savedSearchesSlice.js';
+import { saveSearchTerms, saveSearchResults } from '../store/savedSearchesSlice.js';
 
 const SearchComponent = () => {
     const { refreshKey } = useOutletContext(); 
     const [recipeList, setRecipeList] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [searchDone, setSearchDone ] = useState(false);
-    // const [filteredList, setFilteredList] = useState([]);
-    const dispatch = useDispatch();
-    const recentSearches = useSelector((store) => store.savedSearches.searchTerms);
     
+    const dispatch = useDispatch();
+    const resultsFromStore = useSelector((store) => {
+        return store.savedSearches.searchResults;
+    })
+
     useEffect(()=>{
-       // fetch(recipeApiUrl + "erroririfyingAPI"
-        
         setRecipeList([]);
-        if(searchTerm in recentSearches || searchTerm === "") {
-            console.log(recentSearches);
+        if(Object.keys(resultsFromStore).includes(searchTerm) ) {
+            setRecipeList(resultsFromStore[searchTerm]);
+            setSearchDone(true);
         }
         else {
-            dispatch(addRecipe(searchTerm));
-            console.log(recentSearches);
-        }
-        fetch(mealDBSearchByName + searchTerm)
+            console.log('API calling');
+            let resultsFromAPI = [];
+            fetch(mealDBSearchByName + searchTerm)
             .then((res)=> {
                 if (!res.ok) {
                   throw new Error(`HTTP error! Status: ${res.status}`);
@@ -37,6 +37,7 @@ const SearchComponent = () => {
               })
             .then((data) => {
                 if(data?.meals?.length > 0) {
+                    resultsFromAPI= [...data.meals];
                     setRecipeList(data.meals);
                     setSearchDone(true);
                 }
@@ -50,6 +51,7 @@ const SearchComponent = () => {
                   })
                 .then((data) => {
                     if(data?.meals?.length > 0) {
+                        resultsFromAPI= [...resultsFromAPI, ...data.meals];
                         setRecipeList(prev => [...new Set([...prev, ...data.meals])]);
                         setSearchDone(true);
                     }
@@ -65,10 +67,13 @@ const SearchComponent = () => {
                   })
                 .then((data) => {
                     if(data?.meals?.length > 0) {
+                        resultsFromAPI= [...resultsFromAPI, ...data.meals];
                         setRecipeList(prev =>  [...new Set([...prev, ...data.meals])]);
+
                     }
+                    console.log('saving', {key: searchTerm, results: resultsFromAPI } )
+                    dispatch(saveSearchResults({key: searchTerm, results: resultsFromAPI}));
                     setSearchDone(true);
-                    
                 })
             })
             .catch(error => {
@@ -76,8 +81,7 @@ const SearchComponent = () => {
                 console.error('Errror Fetching Data', error);
                 setRecipeList(null);
             });
-           
-
+        }
     }, [searchTerm]);
 
     useEffect(() => {

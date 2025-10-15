@@ -3,12 +3,22 @@ import {createSlice} from '@reduxjs/toolkit';
 const savedSearchesSlice = createSlice({
     name: "Saved Searches",
     initialState: {
-        searchTerms: ["chicken", "seafood"]
+        searchResults:{
+            // "chicken": [
+            //     "Mango", "Red Mango", "Naga"
+            // ],
+
+            // "seafood": [
+            //     "Fish", "Crab", "Prawn"
+            // ]
+        }
     },
 
     reducers: {
-        addRecipe: (state, action) => {
-            state.searchTerms.push(action.payload);
+
+        saveSearchResults: (state, action) => {
+            const {key, results} = action.payload;
+            state.searchResults[key] = results;
         },
         clearCache: (state, action) => {
             state.searchTerms.length = 0;
@@ -16,5 +26,5 @@ const savedSearchesSlice = createSlice({
     }
 });
 
-export const { addRecipe, clearCache } = savedSearchesSlice.actions;
+export const { saveSearchTerms, saveSearchResults, clearCache } = savedSearchesSlice.actions;
 export default savedSearchesSlice.reducer;
