@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SearchBar = ({setSearchDone, searchTerm, setSearchTerm}) => {
     const [inputValue, setInputValue] = useState("");
-    
-    
+    let debounceTimer = useRef(null);
 
     useEffect(()=>{
-        console.log(inputValue);
-        setSearchTerm(inputValue.trim());
+        clearTimeout(debounceTimer.current);
+        debounceTimer.current = setTimeout(()=> {setSearchTerm(inputValue.trim());
+        console.log(inputValue)}, 400);
     }, [inputValue]);
 
     const recommendedRecipesHandler = () => {
