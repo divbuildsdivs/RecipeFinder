@@ -3,15 +3,16 @@ import RecipeCatalogue from "../components/RecipeCatalogue";
 import { useDispatch, useSelector } from 'react-redux';
 import {mealDBSearchByArea, mealDBSearchByCategory, mealDBSearchByName } from '../utils/constants.js'
 import SearchBar from '../components/SearchBar';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import SkeletonCatalogue from '../components/SkeletonCatalogue.jsx';
 import { useOutletContext } from 'react-router';
 import { saveSearchTerms, saveSearchResults } from '../store/savedSearchesSlice.js';
+import SearchTermContext from '../utils/SearchTermContext.jsx'
 
 const SearchComponent = () => {
     const { refreshKey } = useOutletContext(); 
     const [recipeList, setRecipeList] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
+   const {searchTerm, setSearchTerm} = useContext(SearchTermContext);
     const [searchDone, setSearchDone ] = useState(false);
     
     const dispatch = useDispatch();
@@ -20,8 +21,10 @@ const SearchComponent = () => {
     })
 
     useEffect(()=>{
+        setSearchDone(false);
         setRecipeList([]);
         if(Object.keys(resultsFromStore).includes(searchTerm) ) {
+            console.log('if block');
             setRecipeList(resultsFromStore[searchTerm]);
             setSearchDone(true);
         }
@@ -31,6 +34,7 @@ const SearchComponent = () => {
             fetch(mealDBSearchByName + searchTerm)
             .then((res)=> {
                 if (!res.ok) {
+                    console.log('Error');
                   throw new Error(`HTTP error! Status: ${res.status}`);
                 }
                 return res.json();
@@ -45,6 +49,7 @@ const SearchComponent = () => {
                 fetch(mealDBSearchByCategory + searchTerm)
                 .then((res)=> {
                     if (!res.ok) {
+                        console.log('Error');
                       throw new Error(`HTTP error! Status: ${res.status}`);
                     }
                     return res.json();
@@ -61,6 +66,7 @@ const SearchComponent = () => {
                 fetch(mealDBSearchByArea + searchTerm)
                 .then((res)=> {
                     if (!res.ok) {
+                      console.log('Error');
                       throw new Error(`HTTP error! Status: ${res.status}`);
                     }
                     return res.json();
@@ -77,7 +83,6 @@ const SearchComponent = () => {
                 })
             })
             .catch(error => {
-                
                 console.error('Errror Fetching Data', error);
                 setRecipeList(null);
             });
@@ -88,19 +93,13 @@ const SearchComponent = () => {
         setSearchTerm("");
     },[refreshKey])
 
+
     if( searchDone) {
         return (
-            <div id="main" className="main">
-                <SearchBar setSearchDone = {setSearchDone} searchTerm = {searchTerm} setSearchTerm={setSearchTerm}/>
-                <RecipeCatalogue title ="Recipes" recipeList={recipeList}/>
-            </div>
+            <RecipeCatalogue title ="Recipes" recipeList={recipeList}/>
         );
     } else {
-        return (
-            <div id="main" className="main">
-                <SkeletonCatalogue/>
-            </div>
-        );
+        return (<SkeletonCatalogue/>);
     }
    
 };
